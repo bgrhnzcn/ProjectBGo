@@ -3,11 +3,12 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isDashNotUsed; 
+    [SerializeField] private bool isNotDoubleJumped;
     [SerializeField] private float acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpHigh;
-    [SerializeField] private Collider2D groundChecker;
-   
+    [SerializeField] private float dashSpeed;
     private Rigidbody2D rigidBody2D;
     void Start()
     {
@@ -26,8 +27,17 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.A) && rigidBody2D.velocity.x > -maxSpeed)
             rigidBody2D.AddForce(Vector2.left * acceleration);
 
-        if(Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if(Input.GetKeyDown(KeyCode.E) && isDashNotUsed)
+            rigidBody2D.AddForce(Vector2.right * dashSpeed);
+
+        if(Input.GetKeyDown(KeyCode.W) && (isGrounded || isNotDoubleJumped))
         {
+            if(!isNotDoubleJumped)
+                return;
+
+            if(!isGrounded)
+                isNotDoubleJumped = false;
+
             rigidBody2D.AddForce(Vector2.up * jumpHigh);
             isGrounded = false;
         }
@@ -36,5 +46,7 @@ public class Movement : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collider)
     {
         isGrounded = true;
+        isNotDoubleJumped = true;
+        isDashNotUsed = true;
 	}
 }
