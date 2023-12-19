@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ProjectBGo.sln"
+    "dotnet.defaultSolution": "ProjectBGo.sln",
+    "editor.fontSize": 12
 }

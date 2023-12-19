@@ -11,21 +11,34 @@ using UnityEngine.UIElements;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private AnimatorController an;
-    [SerializeField] private float speed;
+    private bool isGrounded;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float maxSpeed;
+    [SerializeField] private float jumpHigh;
+   
+    private Rigidbody2D rigidBody2D;
     void Start()
     {
-        
+        rigidBody2D = gameObject.GetComponent<Rigidbody2D>(); 
     }
     void Update()
     {
-        if(Input.GetKey(KeyCode.D))
-        {
-            transform.position = new Vector3(transform.position.x + (speed * Time.deltaTime), transform.position.y, 0);
-        }
-        if(Input.GetKey(KeyCode.A))
-        {
-            transform.position = new Vector3(transform.position.x - (speed * Time.deltaTime), transform.position.y, 0);
-        }
+        Move();
+    }
+    
+    private void Move()
+    {
+        if(Input.GetKey(KeyCode.D) && rigidBody2D.velocity.x < maxSpeed)
+            rigidBody2D.AddForce(Vector2.right * acceleration);
+
+        if(Input.GetKey(KeyCode.A) && rigidBody2D.velocity.x > -maxSpeed)
+            rigidBody2D.AddForce(Vector2.left * acceleration);
+
+        if(Input.GetKeyDown(KeyCode.W))
+            rigidBody2D.AddForce(Vector2.up * jumpHigh);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 }
