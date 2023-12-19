@@ -10,13 +10,17 @@ public class Movement : MonoBehaviour
     [SerializeField] private float jumpHigh;
     [SerializeField] private float dashSpeed;
     private Rigidbody2D rigidBody2D;
-    void Start()
+	Vector3 prevPos;
+	void Start()
     {
-        rigidBody2D = gameObject.GetComponent<Rigidbody2D>(); 
+        rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
+        prevPos = transform.position;
     }
     void Update()
     {
         Move();
+        Debug.DrawLine(transform.position, prevPos, Color.cyan, 2);
+        prevPos = transform.position;
     }
     
     private void Move()

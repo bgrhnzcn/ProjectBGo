@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1226463855769208909}
   - component: {fileID: 4620523180863455002}
   - component: {fileID: 891582737671356576}
-  - component: {fileID: 1534343839383360011}
+  - component: {fileID: 415131976964260969}
   - component: {fileID: 5017199978270094424}
   m_Layer: 0
   m_Name: HeavyBandit_0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 834521337772531211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.7468, y: 0.4248, z: 0}
+  m_LocalPosition: {x: -0.005, y: -0.477, z: 0}
   m_LocalScale: {x: 0.6391, y: 0.6391, z: 0.6391}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147,7 +147,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018838406, y: 0.6806992}
+  m_Offset: {x: 0, y: 0.7}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -160,7 +160,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7338939, y: 1.2450821}
   m_EdgeRadius: 0
---- !u!61 &1534343839383360011
+--- !u!61 &415131976964260969
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,7 +192,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.033073366, y: 0.061354164}
+  m_Offset: {x: 0, y: 0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -203,7 +203,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5806012, y: 0.05506929}
+  m_Size: {x: 0.6717844, y: 0.08888405}
   m_EdgeRadius: 0
 --- !u!114 &5017199978270094424
 MonoBehaviour:
@@ -218,7 +218,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
+  isDashNotUsed: 0
   isNotDoubleJumped: 0
   acceleration: 3
   maxSpeed: 3
   jumpHigh: 300
+  dashSpeed: 1000
