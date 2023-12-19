@@ -220,3 +220,4 @@ MonoBehaviour:
   acceleration: 3
   maxSpeed: 3
   jumpHigh: 300
+  groundChecker: {fileID: 1534343839383360011}

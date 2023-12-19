@@ -1,20 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Animations;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
-
 
 public class Movement : MonoBehaviour
 {
-    private bool isGrounded;
+    [SerializeField] private bool isGrounded;
     [SerializeField] private float acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpHigh;
+    [SerializeField] private Collider2D groundChecker;
    
     private Rigidbody2D rigidBody2D;
     void Start()
@@ -34,11 +26,15 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.A) && rigidBody2D.velocity.x > -maxSpeed)
             rigidBody2D.AddForce(Vector2.left * acceleration);
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.W) && isGrounded)
+        {
             rigidBody2D.AddForce(Vector2.up * jumpHigh);
+            isGrounded = false;
+        }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerStay2D(Collider2D collider)
     {
-        
-    }
+        isGrounded = true;
+	}
 }
