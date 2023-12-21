@@ -1,3 +1,5 @@
+using System;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -9,39 +11,44 @@ public class Movement : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpHigh;
     [SerializeField] private float dashSpeed;
-    private Rigidbody2D rigidBody2D;
+    private float horizontalAxis;
+	private bool isJumped;
+	private Rigidbody2D rigidBody2D;
 	Vector3 prevPos;
+
 	void Start()
     {
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         prevPos = transform.position;
     }
-    void Update()
+    void FixedUpdate()
     {
+        GetInput();
         Move();
         Debug.DrawLine(transform.position, prevPos, Color.cyan, 2);
         prevPos = transform.position;
     }
-    
-    private void Move()
-    {
-        if(Input.GetKey(KeyCode.D) && rigidBody2D.velocity.x < maxSpeed)
-            rigidBody2D.AddForce(Vector2.right * acceleration);
 
-        if(Input.GetKey(KeyCode.A) && rigidBody2D.velocity.x > -maxSpeed)
-            rigidBody2D.AddForce(Vector2.left * acceleration);
+	private void GetInput()
+	{
+        horizontalAxis = Input.GetAxisRaw("Horizontal");
+        isJumped = Input.GetKeyDown(KeyCode.W);
+	}
+
+	private void Move()
+    {
+        if(rigidBody2D.velocity.x < maxSpeed && rigidBody2D.velocity.x > -maxSpeed)
+            rigidBody2D.AddForce(Vector2.right * horizontalAxis * acceleration);
 
         if(Input.GetKeyDown(KeyCode.E) && isDashNotUsed)
             rigidBody2D.AddForce(Vector2.right * dashSpeed);
 
-        if(Input.GetKeyDown(KeyCode.W) && (isGrounded || isNotDoubleJumped))
+        if(isJumped && (isGrounded || isNotDoubleJumped))
         {
             if(!isNotDoubleJumped)
                 return;
-
             if(!isGrounded)
                 isNotDoubleJumped = false;
-
             rigidBody2D.AddForce(Vector2.up * jumpHigh);
             isGrounded = false;
         }
