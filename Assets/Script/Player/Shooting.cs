@@ -33,6 +33,7 @@ public class Shooting : MonoBehaviour
 			bulletObject.GetComponent<Rigidbody2D>().velocity = dir * speed;
 			Destroy(bulletObject, 5f);
 		}
+		Quaternion.LookRotation(transform.up, dir);
 	}
 
 	private void Aim()
