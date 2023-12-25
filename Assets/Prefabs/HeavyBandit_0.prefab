@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 8443201106965295944}
   - component: {fileID: 2894979459328660391}
   - component: {fileID: 8527689069842374199}
+  - component: {fileID: 7560891685975799431}
   m_Layer: 0
   m_Name: HeavyBandit_0
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.292, y: -3.302, z: 0}
-  m_LocalScale: {x: 0.6391, y: 0.6391, z: 0.6391}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1267844956603474890}
@@ -218,13 +219,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c4ea2c08d96784197bd0d10fd5210c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 1
-  isDashNotUsed: 1
-  isNotDoubleJumped: 1
-  acceleration: 10
-  maxSpeed: 10
+  acceleration: 5
+  maxSpeed: 5
   jumpHigh: 300
   dashSpeed: 1000
+  isGrounded: 1
+  isJumped: 0
+  isNotDoubleJumped: 1
+  isDashNotUsed: 1
+--- !u!114 &7560891685975799431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834521337772531211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836465a3468238740899c4eb9cef8283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currHealth: 100
+  maxHealth: 100
 --- !u!1 &2608730119544782511
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1267844956603474890}
-  - component: {fileID: 4995982442866015210}
+  - component: {fileID: 2277301211423763245}
   m_Layer: 0
   m_Name: Weapons
   m_TagString: Untagged
@@ -257,7 +273,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2432702920227647595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4995982442866015210
+--- !u!114 &2277301211423763245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,3 +286,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 9017309016567234201, guid: ec61dea0631b18b4dbf4d062452ed2d9, type: 3}
+  projSpeed: 20

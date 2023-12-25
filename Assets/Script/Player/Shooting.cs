@@ -1,41 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 
 public class Shooting : MonoBehaviour
 {
-	[SerializeField] private float speed;
+	[Header("Shooting")]
 	[SerializeField] private GameObject projectile;
-    private Vector3 dir;
+	[SerializeField] private float projSpeed;
+	private Vector3 dir;
 
-	// Start is called before the first frame update
-	void Start()
+	void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-	{
 		Aim();
 		Shoot();
-	}
-
+    }
 	private void Shoot()
 	{
-		GameObject bulletObject;
+		GameObject bulletInstance;
 		if (Input.GetKeyDown(KeyCode.Mouse0))
 		{
-			bulletObject = Instantiate(projectile, transform.position, transform.rotation);
-			bulletObject.GetComponent<Rigidbody2D>().velocity = dir * speed;
-			Destroy(bulletObject, 5f);
+			float angle = Mathf.Atan2(dir.y, dir.x);
+			bulletInstance = Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, (Mathf.Rad2Deg * angle) - 90));
+			bulletInstance.GetComponent<Rigidbody2D>().velocity = dir * projSpeed;
+			Destroy(bulletInstance, 2f);
 		}
-		Quaternion.LookRotation(transform.up, dir);
 	}
-
 	private void Aim()
 	{
 		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

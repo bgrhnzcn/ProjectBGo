@@ -1,63 +1,69 @@
-using System;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool isDashNotUsed; 
-    [SerializeField] private bool isNotDoubleJumped;
+    [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float acceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpHigh;
     [SerializeField] private float dashSpeed;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private bool isGrounded;
+    [SerializeField] private bool isJumped;
+    [SerializeField] private bool isNotDoubleJumped;
+    [SerializeField] private bool isDashing;
     private float horizontalAxis;
-	private bool isJumped;
-	private Rigidbody2D rigidBody2D;
-	Vector3 prevPos;
+	private Rigidbody2D rb;
+	private Vector3 prevPos;
+    private bool canDash;
 
 	void Start()
     {
-        rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         prevPos = transform.position;
-    }
-    void FixedUpdate()
+	}
+	void Update()
     {
-        GetInput();
-        Move();
-        Debug.DrawLine(transform.position, prevPos, Color.cyan, 2);
+        horizontalAxis = Input.GetAxisRaw("Horizontal");
+        Walk(horizontalAxis);
+		if (Input.GetKeyDown(KeyCode.W))
+            Jump();
+		if (Input.GetKeyDown(KeyCode.LeftShift))
+			Dash();
+		Debug.DrawLine(transform.position, prevPos, Color.cyan, 2);
         prevPos = transform.position;
     }
 
-	private void GetInput()
+	private void Jump()
 	{
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-        isJumped = Input.GetKeyDown(KeyCode.W);
+		if (isGrounded || isNotDoubleJumped)
+		{
+			if (!isNotDoubleJumped)
+				return;
+			if (!isGrounded)
+				isNotDoubleJumped = false;
+			rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity += new Vector2(horizontalAxis, 1 * jumpHigh);
+			isGrounded = false;
+		}
 	}
 
-	private void Move()
+	private void Dash()
     {
-        if(rigidBody2D.velocity.x < maxSpeed && rigidBody2D.velocity.x > -maxSpeed)
-            rigidBody2D.AddForce(Vector2.right * horizontalAxis * acceleration);
+        if (isDashing)
+            return;
+        canDash = false;
+        rb.excludeLayers = enemyMask;
+	}
 
-        if(Input.GetKeyDown(KeyCode.E) && isDashNotUsed)
-            rigidBody2D.AddForce(Vector2.right * dashSpeed);
-
-        if(isJumped && (isGrounded || isNotDoubleJumped))
-        {
-            if(!isNotDoubleJumped)
-                return;
-            if(!isGrounded)
-                isNotDoubleJumped = false;
-            rigidBody2D.AddForce(Vector2.up * jumpHigh);
-            isGrounded = false;
-        }
+	private void Walk(float horizontalAxis)
+    {
+        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(horizontalAxis * maxSpeed, 0), Time.deltaTime * acceleration);
     }
 
     private void OnTriggerStay2D(Collider2D collider)
     {
         isGrounded = true;
         isNotDoubleJumped = true;
-        isDashNotUsed = true;
 	}
 }
